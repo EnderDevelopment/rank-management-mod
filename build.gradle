@@ -1,0 +1,57 @@
+plugins {
+    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+}
+
+extensions {
+    loom {
+        minecraftVersion = '1.21.4'
+        mappings = '1.21.4+build.1'
+        accessWidener = 'src/main/resources/ranksmod.accesswidener'
+        modSourceSets {
+            main {
+                resources {
+                    srcDir 'src/main/resources'
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    minecraft 'com.mojang:minecraft:1.21.4'
+    mappings 'net.fabricmc:yarn:1.21.4+build.1:v2'
+    modImplementation 'net.fabricmc:fabric-loader:0.14.0'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.91.0+1.21.4'
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'minecraft_version', loom.minecraftVersion
+    from(sourceSets.main.resources.srcDirs) {
+        include 'fabric.mod.json'
+        expand 'version':project.version, 'minecraft_version':loom.minecraftVersion
+    }
+    include 'assets/**'
+}
+
+loom {
+    refreshVersions = true
+    refreshDeps = true
+}
+
+jar {
+    from {
+        configurations.compileClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}

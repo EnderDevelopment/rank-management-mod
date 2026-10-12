@@ -1,0 +1,7 @@
+{
+  "ranksmod.rank.created": "Rank created: %s",
+  "ranksmod.rank.given": "Rank given to %s: %s",
+  "ranksmod.rank.removed": "Rank removed from %s: %s",
+  "ranksmod.rank.display": "%s [%s]",
+  "ranksmod.rank.default": "Player"
+}
